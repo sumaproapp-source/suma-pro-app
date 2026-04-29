@@ -299,10 +299,13 @@ function App() {
   console.log("Enviando a Drive:", datosParaEnviar.length, "filas");
 
   try {
-    const res = await axios.post(`${API}/products`, nuevoProducto);
-setNewProductName("");
-fetchProducts();
-};
+    const res = await axios.post(`${API}/sync-drive`, datosParaEnviar);
+    console.log(res.data);
+  }   catch (e) {
+    console.error(e);
+    alert("❌ Error al sincronizar");
+  }
+  };
   
 const downloadInventoryExcel = () => {
   let csvContent = "sep=,\nMODELO,PRODUCTO,COLOR,STOCK\n";
