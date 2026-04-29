@@ -180,17 +180,13 @@ function App() {
   };
 
   try {
-    // Usamos la IP que confirmaste
-    const respuesta = await axios.post(`${API}/products`, nuevoProducto);
-    
-    if (respuesta.status === 200 || respuesta.status === 201) {
-      setNewProductName(""); // Limpia el input
-      fetchProducts(); // Refresca la lista
-    }
-  } catch (err) {
-    console.error("DETALLE DEL ERROR:", err.response?.data || err.message);
-    alert("Error al añadir: El servidor no responde o el formato es inválido");
-  }
+  await axios.post(`${API}/products`, nuevoProducto);
+  setNewProductName("");
+  fetchProducts();
+} catch (err) {
+  console.error("DETALLE DEL ERROR:", err.response?.data || err.message);
+  alert("Error al añadir: El servidor no responde o el formato es inválido");
+}
 };
 
   const modifyCart = (pId, cId, model, delta, maxStock) => {
