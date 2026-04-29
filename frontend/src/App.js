@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 // --- CAMBIAR TU IP AQUÍ ---
-const API = "http://localhost:8000/api";
+const API = "https://suma-pro-app.onrender.com/api";
 
 const MODELS = [
   "XS MAX","X/XS", "XR", "7G/8G/SE (2020-2024)", "iPhone 7P/8P", "iPhone 11",
