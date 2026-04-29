@@ -265,42 +265,36 @@ function App() {
   };
 
   const exportarADrive = async () => {
-  const datosParaEnviar = [];
+    const datosParaEnviar = [];
 
-  // 1. Aquí se llenan los datos (esto ya lo tienes)
-  products.forEach(p => {
-    if (!p.colors) return;
-    p.colors.forEach(c => {
-      MODELS.forEach(modelo => {
-        const cantidad = (c.stock && c.stock[modelo]) || 0;
-        datosParaEnviar.push({
-          modelo: modelo,
-          producto: p.name,
-          color: c.name,
-          stock: cantidad
+    products.forEach(p => {
+      if (!p.colors) return;
+      p.colors.forEach(c => {
+        MODELS.forEach(modelo => {
+          const cantidad = (c.stock && c.stock[modelo]) || 0;
+          datosParaEnviar.push({
+            modelo: modelo,
+            producto: p.name,
+            color: c.name,
+            stock: cantidad
+          });
         });
       });
     });
-  });
 
-  // ==========================================
-  // 2. AQUÍ VA EL BLOQUE QUE PUSISTE (Validación)
-  // ==========================================
-  if (datosParaEnviar.length === 0) {
-    alert("⚠️ No hay productos o modelos configurados para sincronizar.");
-    return; // Detiene la ejecución para no llamar a la API en vano
-  }
-  // ==========================================
+    if (datosParaEnviar.length === 0) {
+      alert("⚠️ No hay productos para sincronizar.");
+      return;
+    }
 
-  console.log("Enviando a Drive:", datosParaEnviar.length, "filas");
-
-  try {
-    const res = await axios.post(`${API}/sync-drive`, datosParaEnviar);
-    console.log(res.data);
-  }   catch (e) {
-    console.error(e);
-    alert("❌ Error al sincronizar");
-  }
+    try {
+      // HEMOS QUITADO EL "const res =" PARA EVITAR EL ERROR DE VERCEL
+      await axios.post(`${API}/sync-drive`, datosParaEnviar);
+      alert("✅ ¡Sincronizado con Google Drive correctamente!");
+    } catch (e) {
+      console.error(e);
+      alert("❌ Error al sincronizar: Verifica que el servidor esté encendido.");
+    }
   };
   
 const downloadInventoryExcel = () => {
