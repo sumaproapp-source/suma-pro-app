@@ -5,19 +5,19 @@ const axios = require("axios");
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "https://suma-pro-app-ylld.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+// 🔥 CORS DEFINITIVO (FUNCIONA SIEMPRE)
+app.use(cors());
 app.use(express.json());
 
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Mongo conectado"))
-  .catch(err => console.log("❌ Error Mongo:", err));
+// ✅ Conexión Mongo estable
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("✅ Mongo conectado"))
+.catch(err => console.log("❌ Error Mongo:", err));
 
 /* =========================
    SCHEMAS
@@ -118,7 +118,9 @@ app.put("/api/stock", async (req, res) => {
     if (!color) return res.status(404).json({ error: "Color no encontrado" });
 
     const finalModel = product.is_miscellaneous ? "N/A" : model;
-    color.stock[finalModel] = parseInt(stock) || 0;
+
+    // ✅ evita negativos
+    color.stock[finalModel] = Math.max(0, parseInt(stock) || 0);
 
     await product.save();
 
@@ -154,7 +156,7 @@ app.delete("/api/products/:productId/colors/:colorId", async (req, res) => {
 });
 
 /* =========================
-   VENTAS (YA EN MONGO)
+   VENTAS
 ========================= */
 
 app.post("/api/sales", async (req, res) => {
@@ -215,6 +217,26 @@ app.get("/api/sales", async (req, res) => {
   }
 });
 
+ app.delete("/api/clear", async (req, res) => {
+   try {
+     const { key } = req.body;
+
+     // 🔐 clave secreta (la defines tú en Render)
+     if (key !== process.env.ADMIN_KEY) {
+       return res.status(403).json({ error: "No autorizado" });
+     }
+ 
+     await Product.deleteMany({});
+     await Sale.deleteMany({});
+
+     res.json({ ok: true, message: "Inventario borrado" });
+
+   } catch (err) {
+     res.status(500).json({ error: "Error borrando datos" });
+   }
+ });
+
+
 /* =========================
    GOOGLE DRIVE
 ========================= */
@@ -234,7 +256,7 @@ app.post("/api/sync-drive", async (req, res) => {
 });
 
 /* =========================
-   EXPORT EXCEL (MONGO)
+   EXPORT EXCEL
 ========================= */
 
 app.get("/api/export/inventory", async (req, res) => {
@@ -276,4 +298,9 @@ app.get("/api/export/inventory", async (req, res) => {
 
 /* ========================= */
 
-app.listen(8000, () => console.log("🚀 Servidor Mongo listo en puerto 8000"));
+// ✅ PUERTO DINÁMICO (Render)
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => 
+  console.log("🚀 Servidor Mongo listo en puerto", PORT)
+);
