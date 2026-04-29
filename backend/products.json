@@ -1,0 +1,49 @@
+[
+  {
+    "id": "1776885908294",
+    "name": "BORDES DE COLORES",
+    "is_miscellaneous": false,
+    "is_extra": false,
+    "colors": [
+      {
+        "id": "1776885912941.799",
+        "name": "ROSA",
+        "stock": {
+          "S26": 2,
+          "iPhone 14": 2
+        }
+      },
+      {
+        "id": "1776885918326.347",
+        "name": "AZUL",
+        "stock": {
+          "iPhone 13": 1
+        }
+      },
+      {
+        "id": "1776888579376.0923",
+        "name": "NEGRA",
+        "stock": {
+          "S26": 2,
+          "iPhone 15": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "1776888509279",
+    "name": "AHUMADAS",
+    "is_miscellaneous": false,
+    "is_extra": false,
+    "colors": [
+      {
+        "id": "1776888517158.9128",
+        "name": "NEGRA",
+        "stock": {
+          "iPhone 17 Pro Max": 1,
+          "iPhone 17 Pro": 1
+        }
+      }
+    ]
+  }
+]
