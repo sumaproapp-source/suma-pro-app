@@ -299,8 +299,8 @@ function App() {
   console.log("Enviando a Drive:", datosParaEnviar.length, "filas");
 
   try {
-    const respuesta = await axios.post(`${API}/sync-drive`, datosParaEnviar);
-    alert("🚀 Sincronizado con Drive exitosamente");
+    const res = await axios.post(`${API}/sync-drive`, datosParaEnviar);
+console.log(res.data);
   } catch (e) {
     console.error(e);
     alert("❌ Error al sincronizar: Revisa la consola del servidor");
