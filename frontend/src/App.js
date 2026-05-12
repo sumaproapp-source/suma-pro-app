@@ -99,10 +99,16 @@ function App() {
   const [newProductName, setNewProductName] = useState("");
   const [adminMode, setAdminMode] = useState(false);
   const [salesHistory, setSalesHistory] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [modal, setModal] = useState({ show: false, type: '', data: {} });
   const [inputValue, setInputValue] = useState("");
 
-  useEffect(() => { fetchProducts(); fetchSales(); }, [adminMode]);
+useEffect(() => {
+  fetchProducts();
+  fetchSales();
+  fetchTickets();
+}, [adminMode]);
+  
 
   const fetchProducts = async () => {
     try { 
@@ -121,7 +127,19 @@ function App() {
       console.error("Error al obtener ventas:", err); 
     }
   };
+  const fetchTickets = async () => {
+  try {
 
+    const res = await axios.get(`${API}/tickets`);
+
+    setTickets(res.data);
+
+  } catch (err) {
+
+    console.error("Error tickets:", err);
+
+  }
+};
   const openModal = (type, data = {}) => {
     setInputValue("");
     setModal({ show: true, type, data });
@@ -460,6 +478,46 @@ const downloadInventoryExcel = () => {
           </>
         )}
       </div> 
+      {/* HISTORIAL TICKETS */}
+      {adminMode && tickets.length > 0 && (
+        <div style={styles.glowCard}>
+          
+          <h3 style={styles.title}>
+            🧾 HISTORIAL TICKETS
+          </h3>
+
+          {tickets.slice(0, 20).map(ticket => (
+            <div
+              key={ticket._id}
+              style={{
+                borderBottom: "1px solid rgba(255,255,255,0.1)",
+                padding: "10px 0"
+              }}
+            >
+
+              <div style={{
+                fontWeight: "bold",
+                marginBottom: "5px"
+              }}>
+                Ticket #{ticket.ticket_number}
+              </div>
+
+              <small>
+                {new Date(ticket.date).toLocaleString()}
+              </small>
+
+              <div style={{
+                marginTop: "5px",
+                color: "#00ffcc"
+              }}>
+                {ticket.total_items} artículos
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+      )}
 
       {/* FOOTER */}
       <footer style={{ position: "fixed", bottom: 0, left: 0, width: "100%", backgroundColor: 'rgba(16, 51, 124, 0.95)', padding: "15px 0", zIndex: 100 }}>
