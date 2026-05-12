@@ -204,7 +204,8 @@ app.post("/api/sales", async (req, res) => {
         if (c && c.stock[modelKey] !== undefined) {
           c.stock[modelKey] -= item.quantity;
         }
-
+     // 🔥 FORZAR GUARDADO EN MONGO
+        p.markModified("colors");
         await p.save();
       }
     }
