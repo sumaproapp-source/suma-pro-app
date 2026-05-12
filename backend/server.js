@@ -77,6 +77,26 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
+
+//TICKET
+app.get("/api/tickets", async (req, res) => {
+  try {
+
+    const tickets = await Ticket.find()
+      .sort({ date: -1 });
+
+    res.json(tickets);
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: "Error obteniendo tickets"
+    });
+
+  }
+});
+
+
 // CREATE
 app.post("/api/products", async (req, res) => {
   try {
