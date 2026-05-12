@@ -145,6 +145,7 @@ app.post("/api/products/:id/colors", async (req, res) => {
 });
 
 // UPDATE STOCK
+
 app.put("/api/stock", async (req, res) => {
   try {
     const { product_id, color_id, model, stock } = req.body;
@@ -182,6 +183,8 @@ app.put("/api/stock", async (req, res) => {
     });
   }
 });
+
+
 // DELETE PRODUCT
 app.delete("/api/products/:id", async (req, res) => {
   try {
