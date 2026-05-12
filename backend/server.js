@@ -217,7 +217,16 @@ app.post("/api/sales", async (req, res) => {
 
     await sale.save();
 
-    res.json({ ok: true });
+const ticket = new Ticket({
+  date: new Date(),
+  items,
+  total_items: items.reduce((a, b) => a + b.quantity, 0),
+  ticket_number: Date.now()
+});
+
+await ticket.save();
+
+res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: "Error procesando venta" });
   }
