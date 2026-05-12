@@ -54,6 +54,15 @@ const SaleSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", ProductSchema);
 const Sale = mongoose.model("Sale", SaleSchema);
 
+const TicketSchema = new mongoose.Schema({
+  date: Date,
+  items: Array,
+  total_items: Number,
+  ticket_number: Number
+});
+
+const Ticket = mongoose.model("Ticket", TicketSchema);
+
 /* =========================
    PRODUCTOS
 ========================= */
