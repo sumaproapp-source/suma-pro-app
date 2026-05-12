@@ -112,24 +112,38 @@ app.put("/api/stock", async (req, res) => {
     const { product_id, color_id, model, stock } = req.body;
 
     const product = await Product.findById(product_id);
-    if (!product) return res.status(404).json({ error: "Producto no encontrado" });
+
+    if (!product)
+      return res.status(404).json({ error: "Producto no encontrado" });
 
     const color = product.colors.find(c => c.id == color_id);
-    if (!color) return res.status(404).json({ error: "Color no encontrado" });
+
+    if (!color)
+      return res.status(404).json({ error: "Color no encontrado" });
 
     const finalModel = product.is_miscellaneous ? "N/A" : model;
 
     // ✅ evita negativos
     color.stock[finalModel] = Math.max(0, parseInt(stock) || 0);
 
+    // 🔥 ESTA ES LA LÍNEA IMPORTANTE
+    product.markModified("colors");
+
     await product.save();
 
-    res.json({ ok: true, stock: color.stock[finalModel] });
+    res.json({
+      ok: true,
+      stock: color.stock[finalModel]
+    });
+
   } catch (err) {
-    res.status(500).json({ error: "Error actualizando stock" });
+    console.log(err);
+
+    res.status(500).json({
+      error: "Error actualizando stock"
+    });
   }
 });
-
 // DELETE PRODUCT
 app.delete("/api/products/:id", async (req, res) => {
   try {
