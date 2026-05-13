@@ -377,12 +377,18 @@ const imprimirTicket = (ticket) => {
 
         ${ticket.items.map(item => `
           <div>
-            ${item.quantity}x ${item.product_name}
-          </div>
+            ${item.quantity}x 
+            ${item.product_name}
 
-          <div>
             ${item.iphone_model || ""}
+
             ${item.color_name || ""}
+
+            - ${
+              (
+                products.find(p => p.id === item.product_id)?.price || 0
+              ) * item.quantity
+            }€
           </div>
 
           <br>
@@ -391,8 +397,23 @@ const imprimirTicket = (ticket) => {
         <hr>
 
         <b>
-          TOTAL ARTÍCULOS:
+         TOTAL ARTÍCULOS:
           ${ticket.total_items}
+
+          <br><br>
+
+          TOTAL:
+          ${ticket.items.reduce((acc, item) => {
+
+            const product = products.find(
+              p => p.id === item.product_id
+            );
+
+            const precio = product?.price || 0;
+
+            return acc + (precio * item.quantity);
+
+          }, 0)}€
         </b>
 
         <br><br>
