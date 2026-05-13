@@ -25,6 +25,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 const ProductSchema = new mongoose.Schema({
   name: String,
+  price: Number,
   is_miscellaneous: Boolean,
   is_extra: Boolean,
   colors: Array
@@ -100,12 +101,13 @@ app.get("/api/tickets", async (req, res) => {
 // CREATE
 app.post("/api/products", async (req, res) => {
   try {
-    const product = new Product({
-      name: (req.body.name || "SIN NOMBRE").toUpperCase(),
-      is_miscellaneous: Boolean(req.body.is_miscellaneous),
-      is_extra: Boolean(req.body.is_extra),
-      colors: []
-    });
+   const product = new Product({
+  name: (req.body.name || "SIN NOMBRE").toUpperCase(),
+  price: Number(req.body.price) || 0,
+  is_miscellaneous: Boolean(req.body.is_miscellaneous),
+  is_extra: Boolean(req.body.is_extra),
+  colors: []
+});
 
     await product.save();
     res.status(201).json(product);
