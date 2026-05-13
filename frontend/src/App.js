@@ -358,7 +358,25 @@ const downloadInventoryExcel = () => {
   const cases = products.filter(p => !p.is_miscellaneous && !p.is_extra);
   const misc = products.filter(p => p.is_miscellaneous);
   const pedidoExtras = products.filter(p => p.is_extra);
+  const groupedTickets = tickets.reduce((acc, ticket) => {
 
+  const date = new Date(ticket.date);
+
+  const month = date.toLocaleString("es-ES", {
+    month: "long",
+    year: "numeric"
+  });
+
+  if (!acc[month]) {
+    acc[month] = [];
+  }
+
+  acc[month].push(ticket);
+
+  return acc;
+
+}, {});
+  
   return (
     <div style={styles.mainDiv}>
       <div style={{ maxWidth: "500px", margin: "auto", padding: "10px", position: "relative", zIndex: 2 }}>
@@ -486,7 +504,27 @@ const downloadInventoryExcel = () => {
             🧾 HISTORIAL TICKETS
           </h3>
 
-          {tickets.slice(0, 20).map(ticket => (
+          {Object.entries(groupedTickets).map(([month, monthTickets]) => (
+
+  <details
+    key={month}
+    style={{
+      marginBottom: "15px"
+    }}
+  >
+
+    <summary
+      style={{
+        cursor: "pointer",
+        fontWeight: "bold",
+        color: "#00ffcc",
+        marginBottom: "10px"
+      }}
+    >
+      📅 {month} ({monthTickets.length})
+    </summary>
+
+    {monthTickets.map(ticket => (
             <div
               key={ticket._id}
               style={{
@@ -514,7 +552,11 @@ const downloadInventoryExcel = () => {
               </div>
 
             </div>
-          ))}
+            ))}
+
+  </details>
+
+))}
 
         </div>
       )}
