@@ -521,13 +521,22 @@ const downloadInventoryExcel = () => {
 
   try {
 
-    const res = await axios.delete(`${API}/tickets`, {
-      data: {
-        key: clave
+    const response = await fetch(
+      `${API}/tickets`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          key: clave
+        })
       }
-    });
+    );
 
-    if (res.data.ok) {
+    const data = await response.json();
+
+    if (data.ok) {
 
       alert("🗑️ Tickets borrados");
 
@@ -539,7 +548,7 @@ const downloadInventoryExcel = () => {
 
     } else {
 
-      alert("❌ Clave incorrecta");
+      alert("❌ Error");
 
     }
 
