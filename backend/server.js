@@ -291,6 +291,36 @@ app.get("/api/sales", async (req, res) => {
    }
  });
 
+  app.delete("/api/tickets", async (req, res) => {
+
+  try {
+
+    const { key } = req.body;
+
+    if (key !== process.env.ADMIN_KEY) {
+
+      return res.status(403).json({
+        error: "No autorizado"
+      });
+
+    }
+
+    await Sale.deleteMany({});
+
+    res.json({
+      ok: true,
+      message: "Tickets borrados"
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: "Error borrando tickets"
+    });
+
+  }
+
+});
 
 /* =========================
    GOOGLE DRIVE
