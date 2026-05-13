@@ -332,115 +332,246 @@ const imprimirTicket = (ticket) => {
   const ventana = window.open("", "_blank");
 
   ventana.document.write(`
-    <html>
-      <head>
-        <title>Ticket</title>
+<html>
 
-        <style>
-          body{
-            font-family: monospace;
-            padding:20px;
-            width:300px;
-          }
+<head>
+  <title>Ticket</title>
 
-          h2{
-            text-align:center;
-            margin-bottom:5px;
-          }
+  <style>
 
-          .center{
-            text-align:center;
-          }
+    body{
+      font-family: monospace;
+      width: 300px;
+      padding: 15px;
+      color:#000;
+    }
 
-          hr{
-            border:none;
-            border-top:1px dashed black;
-            margin:10px 0;
-          }
-        </style>
+    .logo{
+      width: 220px;
+      display:block;
+      margin:auto;
+      margin-bottom:10px;
+    }
 
-      </head>
+    .center{
+      text-align:center;
+    }
 
-      <body>
+    .line{
+      border-top:1px dashed #000;
+      margin:10px 0;
+    }
 
-        <h2>SUMA PRO</h2>
+    .title{
+      text-align:center;
+      font-size:20px;
+      font-weight:bold;
+      margin:10px 0;
+    }
 
-        <div class="center">
-          Mauricio Sarmiento<br>
-          NIF: 79443976K<br>
-          Habernaria 3<br>
-          S/C Tenerife 38107<br>
-          Tel: 698515415
-        </div>
+    .row{
+      display:flex;
+      justify-content:space-between;
+      margin:2px 0;
+    }
 
-        <hr>
+    .total{
+      background:#000;
+      color:#fff;
+      padding:10px;
+      font-size:26px;
+      font-weight:bold;
+      display:flex;
+      justify-content:space-between;
+      margin-top:10px;
+      border-radius:8px;
+    }
 
-        ${ticket.items.map(item => `
-          <div>
-            ${item.quantity}x 
-            ${item.product_name}
+    .small{
+      font-size:12px;
+    }
 
-            ${item.iphone_model || ""}
+    .insta{
+      text-align:center;
+      margin-top:15px;
+      font-weight:bold;
+      font-size:18px;
+    }
 
-            ${item.color_name || ""}
+  </style>
 
-            - ${
-              (
-                products.find(p => p.id === item.product_id)?.price || 0
-              ) * item.quantity
-            }€
-          </div>
+</head>
 
-          <br>
-        `).join("")}
+<body>
 
-        <hr>
+  <img 
+    src="/ticket-logo.png"
+    class="logo"
+  />
+
+  <div class="center">
+    Mauricio Sarmiento<br>
+    NIF: 79443976K<br>
+    Habernaria 3<br>
+    S/C Tenerife 38107<br>
+    Tel: 698515415
+  </div>
+
+  <div class="line"></div>
+
+  <div class="title">
+    TICKET DE COMPRA
+  </div>
+
+  ${ticket.items.map(item => {
+
+    const product = products.find(
+      p => p.id === item.product_id
+    );
+
+    const precio = product?.price || 0;
+
+    return `
+
+      <div style="margin-bottom:12px;">
 
         <b>
-         TOTAL ARTÍCULOS:
-          ${ticket.total_items}
+          ${item.quantity}x
+          ${item.product_name}
+        </b>
 
-          <br><br>
+        <br>
 
-          TOTAL:
-          ${ticket.items.reduce((acc, item) => {
+        ${item.iphone_model || ""}
+
+        ${item.color_name || ""}
+
+        <div class="row">
+          <span>${precio}€ x ${item.quantity}</span>
+          <b>${precio * item.quantity}€</b>
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("")}
+
+  <div class="line"></div>
+
+  <div class="row">
+    <b>TOTAL ARTÍCULOS:</b>
+    <b>${ticket.total_items}</b>
+  </div>
+
+  <div class="row">
+    <b>SUBTOTAL:</b>
+
+    <b>
+      ${(
+        ticket.items.reduce((acc, item) => {
+
+          const product = products.find(
+            p => p.id === item.product_id
+          );
+
+          return acc + (
+            (product?.price || 0)
+            * item.quantity
+          );
+
+        }, 0) / 1.07
+      ).toFixed(2)}€
+    </b>
+  </div>
+
+  <div class="row">
+    <b>IGIC (7%):</b>
+
+    <b>
+      ${(
+        ticket.items.reduce((acc, item) => {
+
+          const product = products.find(
+            p => p.id === item.product_id
+          );
+
+          return acc + (
+            (product?.price || 0)
+            * item.quantity
+          );
+
+        }, 0)
+        -
+        (
+          ticket.items.reduce((acc, item) => {
 
             const product = products.find(
               p => p.id === item.product_id
             );
 
-            const precio = product?.price || 0;
+            return acc + (
+              (product?.price || 0)
+              * item.quantity
+            );
 
-            return acc + (precio * item.quantity);
+          }, 0) / 1.07
+        )
+      ).toFixed(2)}€
+    </b>
+  </div>
 
-          }, 0)}€
-        </b>
+  <div class="total">
 
-        <br><br>
+    <span>TOTAL</span>
 
-        Ticket #${ticket.ticket_number}
+    <span>
+      ${ticket.items.reduce((acc, item) => {
 
-        <br>
+        const product = products.find(
+          p => p.id === item.product_id
+        );
 
-        ${new Date(ticket.date).toLocaleString()}
+        return acc + (
+          (product?.price || 0)
+          * item.quantity
+        );
 
-        <br><br>
+      }, 0)}€
+    </span>
 
-        IGIC INCLUIDO
+  </div>
 
-        <br><br>
+  <div class="line"></div>
 
-        Gracias por su compra
+  <div class="row small">
+    <span>
+      Ticket #${String(ticket.ticket_number).slice(-6)}
+    </span>
 
-      </body>
-    </html>
-  `);
+    <span>
+      ${new Date(ticket.date).toLocaleString()}
+    </span>
+  </div>
 
-  ventana.document.close();
+  <div class="line"></div>
 
-  ventana.print();
-};
-  
+  <div class="center">
+    ★ GRACIAS POR SU COMPRA ★
+  </div>
+
+  <div class="insta">
+    Instagram: @sumapr0
+  </div>
+
+  <div class="center small">
+    IGIC INCLUIDO
+  </div>
+
+</body>
+
+</html>
+`);
 const downloadInventoryExcel = () => {
   let csvContent = "sep=,\nMODELO,PRODUCTO,COLOR,STOCK\n";
 
