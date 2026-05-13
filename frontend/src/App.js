@@ -571,7 +571,15 @@ const imprimirTicket = (ticket) => {
 </body>
 
 </html>
-`);
+  `);
+
+  ventana.document.close();
+
+  ventana.onload = () => {
+    ventana.print();
+  };
+
+};
 const downloadInventoryExcel = () => {
   let csvContent = "sep=,\nMODELO,PRODUCTO,COLOR,STOCK\n";
 
