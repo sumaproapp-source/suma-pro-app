@@ -389,20 +389,113 @@ const downloadInventoryExcel = () => {
         </div>
 
         {/* PANEL ADMIN */}
-        {adminMode && (
-          <div style={{ ...styles.glowCard, border: "2px solid #00c3ff" }}>
-            <button onClick={downloadInventoryExcel} style={{ ...styles.futuristicButton, width: "100%", padding: "12px", marginBottom: "15px", background: 'rgba(0, 150, 255, 0.15)' }}>📊 Descargar Excel CSV</button>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-              <input value={newProductName} onChange={e => setNewProductName(e.target.value)} placeholder="Nombre del producto..." style={{ flex: "1 1 auto", minWidth: "200px", padding: "10px", ...styles.selectField }} />
-              <button onClick={() => handleAddProduct(0)} style={{ ...styles.futuristicButton, flex: 1, padding: "10px", fontSize: '0.7rem' }}>+FUNDA</button>
-              <button onClick={() => handleAddProduct(1)} style={{ ...styles.futuristicButton, flex: 1, padding: "10px", fontSize: '0.7rem' }}>+MISC</button>
-              <button onClick={() => handleAddProduct(2)} style={{ ...styles.futuristicButton, flex: 1, padding: "10px", fontSize: '0.7rem', background: 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)' }}>+EXTRA</button>
-            </div>
-            <button onClick={exportarADrive} style={{ backgroundColor: "#4285F4", color: "white", padding: "14px", borderRadius: "12px", fontWeight: "bold", border: "none", cursor: "pointer", width: "100%", fontSize: "1rem", marginTop: "20px" }}>
-              📁 SINCRONIZAR DRIVE
-            </button>
-          </div>
-        )}
+{adminMode && (
+  <div style={{ ...styles.glowCard, border: "2px solid #00c3ff" }}>
+    
+    <button
+      onClick={downloadInventoryExcel}
+      style={{
+        ...styles.futuristicButton,
+        width: "100%",
+        padding: "12px",
+        marginBottom: "15px",
+        background: 'rgba(0, 150, 255, 0.15)'
+      }}
+    >
+      📊 DESCARGAR EXCEL CSV
+    </button>
+
+    <button
+      onClick={borrarTodo}
+      style={{
+        width: "100%",
+        padding: "14px",
+        marginBottom: "15px",
+        background: "#ff4d4d",
+        border: "none",
+        borderRadius: "12px",
+        color: "white",
+        fontWeight: "bold",
+        fontSize: "1rem",
+        cursor: "pointer"
+      }}
+    >
+      🗑️ BORRAR TODO INVENTARIO
+    </button>
+
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
+      
+      <input
+        value={newProductName}
+        onChange={e => setNewProductName(e.target.value)}
+        placeholder="Nombre del producto..."
+        style={{
+          flex: "1 1 auto",
+          minWidth: "200px",
+          padding: "10px",
+          ...styles.selectField
+        }}
+      />
+
+      <button
+        onClick={() => handleAddProduct(0)}
+        style={{
+          ...styles.futuristicButton,
+          flex: 1,
+          padding: "10px",
+          fontSize: '0.7rem'
+        }}
+      >
+        +FUNDA
+      </button>
+
+      <button
+        onClick={() => handleAddProduct(1)}
+        style={{
+          ...styles.futuristicButton,
+          flex: 1,
+          padding: "10px",
+          fontSize: '0.7rem'
+        }}
+      >
+        +MISC
+      </button>
+
+      <button
+        onClick={() => handleAddProduct(2)}
+        style={{
+          ...styles.futuristicButton,
+          flex: 1,
+          padding: "10px",
+          fontSize: '0.7rem',
+          background: 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)'
+        }}
+      >
+        +EXTRA
+      </button>
+
+    </div>
+
+    <button
+      onClick={exportarADrive}
+      style={{
+        backgroundColor: "#4285F4",
+        color: "white",
+        padding: "14px",
+        borderRadius: "12px",
+        fontWeight: "bold",
+        border: "none",
+        cursor: "pointer",
+        width: "100%",
+        fontSize: "1rem",
+        marginTop: "20px"
+      }}
+    >
+      📁 SINCRONIZAR DRIVE
+    </button>
+
+  </div>
+)}
 
         {/* LISTADO DE FUNDAS */}
         {cases.length > 0 && <h3 style={{ ...styles.title, color: '#000' }}>🔵 FUNDAS</h3>}
