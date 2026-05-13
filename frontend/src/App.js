@@ -497,69 +497,82 @@ const downloadInventoryExcel = () => {
         )}
       </div> 
       {/* HISTORIAL TICKETS */}
-      {adminMode && tickets.length > 0 && (
-        <div style={styles.glowCard}>
-          
-          <h3 style={styles.title}>
-            🧾 HISTORIAL TICKETS
-          </h3>
+{adminMode && tickets.length > 0 && (
+  <div style={{
+    ...styles.glowCard,
+    maxWidth: "500px",
+    margin: "20px auto"
+  }}>
+    
+    <h3 style={{
+      ...styles.title,
+      fontSize: "1.1rem",
+      marginBottom: "10px"
+    }}>
+      🧾 HISTORIAL TICKETS
+    </h3>
 
-          {Object.entries(groupedTickets).map(([month, monthTickets]) => (
+    {Object.entries(groupedTickets).map(([month, monthTickets]) => (
 
-  <details
-    key={month}
-    style={{
-      marginBottom: "15px"
-    }}
-  >
+      <details
+        key={month}
+        style={{
+          marginBottom: "15px"
+        }}
+      >
 
-    <summary
-      style={{
-        cursor: "pointer",
-        fontWeight: "bold",
-        color: "#00ffcc",
-        marginBottom: "10px"
-      }}
-    >
-      📅 {month} ({monthTickets.length})
-    </summary>
+        <summary
+          style={{
+            cursor: "pointer",
+            fontWeight: "bold",
+            color: "#00ffcc",
+            marginBottom: "10px",
+            fontSize: "0.95rem"
+          }}
+        >
+          📅 {month} ({monthTickets.length})
+        </summary>
 
-    {monthTickets.map(ticket => (
-            <div
-              key={ticket._id}
-              style={{
-                borderBottom: "1px solid rgba(255,255,255,0.1)",
-                padding: "10px 0"
-              }}
-            >
+        {monthTickets.map(ticket => (
+          <div
+            key={ticket._id}
+            style={{
+              borderBottom: "1px solid rgba(255,255,255,0.1)",
+              padding: "10px 0"
+            }}
+          >
 
-              <div style={{
-                fontWeight: "bold",
-                marginBottom: "5px"
-              }}>
-                Ticket #{ticket.ticket_number}
-              </div>
-
-              <small>
-                {new Date(ticket.date).toLocaleString()}
-              </small>
-
-              <div style={{
-                marginTop: "5px",
-                color: "#00ffcc"
-              }}>
-                {ticket.total_items} artículos
-              </div>
-
+            <div style={{
+              fontWeight: "bold",
+              marginBottom: "5px",
+              fontSize: "0.95rem"
+            }}>
+              Ticket #{ticket.ticket_number}
             </div>
-            ))}
 
-  </details>
+            <small style={{
+              opacity: 0.8
+            }}>
+              {new Date(ticket.date).toLocaleString()}
+            </small>
 
-))}
+            <div style={{
+              marginTop: "5px",
+              color: "#00ffcc",
+              fontSize: "0.9rem"
+            }}>
+              {ticket.total_items} artículos
+            </div>
 
-        </div>
-      )}
+          </div>
+        ))}
+
+      </details>
+
+    ))}
+
+  </div>
+)}
 
       {/* FOOTER */}
       <footer style={{ position: "fixed", bottom: 0, left: 0, width: "100%", backgroundColor: 'rgba(16, 51, 124, 0.95)', padding: "15px 0", zIndex: 100 }}>
