@@ -582,6 +582,24 @@ const downloadInventoryExcel = () => {
       🗑️ BORRAR TODO INVENTARIO
     </button>
 
+    <button
+      onClick={borrarTickets}
+      style={{
+        width: "100%",
+        padding: "10px",
+        marginBottom: "12px",
+        background: "#ff9800",
+        border: "none",
+        borderRadius: "10px",
+        color: "white",
+        fontWeight: "bold",
+        fontSize: "0.8rem",
+        cursor: "pointer"
+      }}
+    >
+      🗑️ BORRAR TICKETS
+    </button>   
+        
     <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
       
       <input
