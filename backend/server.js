@@ -306,6 +306,7 @@ app.get("/api/sales", async (req, res) => {
     }
 
     await Sale.deleteMany({});
+    await Ticket.deleteMany({});
 
     res.json({
       ok: true,
