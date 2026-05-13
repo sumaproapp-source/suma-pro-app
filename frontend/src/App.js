@@ -452,14 +452,14 @@ const downloadInventoryExcel = () => {
       onClick={borrarTodo}
       style={{
         width: "100%",
-        padding: "14px",
-        marginBottom: "15px",
+        padding: "10px",
+        marginBottom: "12px",
         background: "#ff4d4d",
         border: "none",
-        borderRadius: "12px",
+        borderRadius: "10px",
         color: "white",
         fontWeight: "bold",
-        fontSize: "1rem",
+        fontSize: "0.8rem",
         cursor: "pointer"
       }}
     >
