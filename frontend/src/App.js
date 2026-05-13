@@ -513,6 +513,45 @@ const downloadInventoryExcel = () => {
 
   }
 };
+  const borrarTickets = async () => {
+
+  const clave = prompt("Clave admin");
+
+  if (!clave) return;
+
+  try {
+
+    const res = await axios.delete(`${API}/tickets`, {
+      data: {
+        key: clave
+      }
+    });
+
+    if (res.data.ok) {
+
+      alert("🗑️ Tickets borrados");
+
+      setTickets([]);
+      setSalesHistory([]);
+
+      fetchTickets();
+      fetchSales();
+
+    } else {
+
+      alert("❌ Clave incorrecta");
+
+    }
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("❌ Error borrando tickets");
+
+  }
+
+};
   
   const cases = products.filter(p => !p.is_miscellaneous && !p.is_extra);
   const misc = products.filter(p => p.is_miscellaneous);
