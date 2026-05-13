@@ -327,6 +327,98 @@ useEffect(() => {
     alert("❌ Error al sincronizar: Revisa la consola del servidor");
   }
 };
+const imprimirTicket = (ticket) => {
+
+  const ventana = window.open("", "_blank");
+
+  ventana.document.write(`
+    <html>
+      <head>
+        <title>Ticket</title>
+
+        <style>
+          body{
+            font-family: monospace;
+            padding:20px;
+            width:300px;
+          }
+
+          h2{
+            text-align:center;
+            margin-bottom:5px;
+          }
+
+          .center{
+            text-align:center;
+          }
+
+          hr{
+            border:none;
+            border-top:1px dashed black;
+            margin:10px 0;
+          }
+        </style>
+
+      </head>
+
+      <body>
+
+        <h2>SUMA PRO</h2>
+
+        <div class="center">
+          Mauricio Sarmiento<br>
+          NIF: 79443976K<br>
+          Habernaria 3<br>
+          S/C Tenerife 38107<br>
+          Tel: 698515415
+        </div>
+
+        <hr>
+
+        ${ticket.items.map(item => `
+          <div>
+            ${item.quantity}x ${item.product_name}
+          </div>
+
+          <div>
+            ${item.iphone_model || ""}
+            ${item.color_name || ""}
+          </div>
+
+          <br>
+        `).join("")}
+
+        <hr>
+
+        <b>
+          TOTAL ARTÍCULOS:
+          ${ticket.total_items}
+        </b>
+
+        <br><br>
+
+        Ticket #${ticket.ticket_number}
+
+        <br>
+
+        ${new Date(ticket.date).toLocaleString()}
+
+        <br><br>
+
+        IGIC INCLUIDO
+
+        <br><br>
+
+        Gracias por su compra
+
+      </body>
+    </html>
+  `);
+
+  ventana.document.close();
+
+  ventana.print();
+};
   
 const downloadInventoryExcel = () => {
   let csvContent = "sep=,\nMODELO,PRODUCTO,COLOR,STOCK\n";
@@ -712,6 +804,22 @@ const downloadInventoryExcel = () => {
               fontSize: "0.9rem"
             }}>
               {ticket.total_items} artículos
+            <button
+              onClick={() => imprimirTicket(ticket)}
+              style={{
+                marginTop: "8px",
+                padding: "6px 10px",
+                background: "#00c3ff",
+                border: "none",
+                borderRadius: "8px",
+                color: "white",
+                fontSize: "0.75rem",
+                cursor: "pointer"
+              }}
+            >
+              🖨️ IMPRIMIR
+            </button>
+                
             </div>
 
           </div>
