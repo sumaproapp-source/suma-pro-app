@@ -577,7 +577,30 @@ const downloadInventoryExcel = () => {
       {/* FOOTER */}
       <footer style={{ position: "fixed", bottom: 0, left: 0, width: "100%", backgroundColor: 'rgba(16, 51, 124, 0.95)', padding: "15px 0", zIndex: 100 }}>
         <div style={{ maxWidth: "500px", margin: "auto", display: "flex", justifyContent: "space-between", padding: "0 20px", fontSize: "0.8rem", marginBottom: "10px" }}>
-          <span>📦 HOY: <b style={{ color: '#00ffcc' }}>{salesHistory.reduce((t, s) => t + (s.items ? s.items.reduce((sum, i) => sum + i.quantity, 0) : 0), 0)}</b></span>
+          <span>📦 HOY: <b style={{ color: '#00ffcc' }}>{
+  salesHistory
+    .filter(s => {
+
+      const today = new Date();
+      const saleDate = new Date(s.date);
+
+      return (
+        saleDate.getDate() === today.getDate() &&
+        saleDate.getMonth() === today.getMonth() &&
+        saleDate.getFullYear() === today.getFullYear()
+      );
+
+    })
+    .reduce(
+      (t, s) =>
+        t + (
+          s.items
+            ? s.items.reduce((sum, i) => sum + i.quantity, 0)
+            : 0
+        ),
+      0
+    )
+}</b></span>
           <span>⏳ PENDIENTES: <b>{pendingSale.length}</b></span>
         </div>
         <div style={{ maxWidth: "500px", margin: "auto", display: "flex", gap: "10px", padding: "0 10px" }}>
