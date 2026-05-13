@@ -355,6 +355,49 @@ const downloadInventoryExcel = () => {
   link.click();
 };
 
+  const borrarTodo = async () => {
+
+  const clave = prompt("Introduce la clave admin");
+
+  if (!clave) return;
+
+  try {
+
+    const res = await axios.delete(`${API}/clear`, {
+      data: {
+        key: clave
+      }
+    });
+
+    if (res.data.ok) {
+
+      alert("🔥 Inventario borrado");
+
+      setProducts([]);
+      setTickets([]);
+      setSalesHistory([]);
+      setPendingSale([]);
+      setCart({});
+
+      fetchProducts();
+      fetchSales();
+      fetchTickets();
+
+    } else {
+
+      alert("❌ Clave incorrecta");
+
+    }
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("❌ Error borrando inventario");
+
+  }
+};
+  
   const cases = products.filter(p => !p.is_miscellaneous && !p.is_extra);
   const misc = products.filter(p => p.is_miscellaneous);
   const pedidoExtras = products.filter(p => p.is_extra);
