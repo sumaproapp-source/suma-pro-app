@@ -97,6 +97,7 @@ function App() {
   const [pendingSale, setPendingSale] = useState([]);
   const [selectedModel, setSelectedModel] = useState({});
   const [newProductName, setNewProductName] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState("");
   const [adminMode, setAdminMode] = useState(false);
   const [salesHistory, setSalesHistory] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -192,10 +193,11 @@ useEffect(() => {
 
   // Creamos el objeto EXACTAMENTE como lo espera tu backend
   const nuevoProducto = {
-    name: newProductName.toUpperCase().trim(),
-    is_miscellaneous: typeId === 1,
-    is_extra: typeId === 2
-  };
+  name: newProductName.toUpperCase().trim(),
+  price: Number(newProductPrice) || 0,
+  is_miscellaneous: typeId === 1,
+  is_extra: typeId === 2
+};
 
   try {
     // Usamos la IP que confirmaste
@@ -203,6 +205,7 @@ useEffect(() => {
     
     if (respuesta.status === 200 || respuesta.status === 201) {
       setNewProductName(""); // Limpia el input
+      setNewProductPrice("");
       fetchProducts(); // Refresca la lista
     }
   } catch (err) {
@@ -479,7 +482,18 @@ const downloadInventoryExcel = () => {
           ...styles.selectField
         }}
       />
-
+       <input
+        type="number"
+        value={newProductPrice}
+        onChange={e => setNewProductPrice(e.target.value)}
+        placeholder="Precio €"
+        style={{
+          width: "90px",
+          padding: "10px",
+          ...styles.selectField
+        }}
+      />
+  
       <button
         onClick={() => handleAddProduct(0)}
         style={{
