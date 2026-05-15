@@ -335,248 +335,192 @@ const imprimirTicket = (ticket) => {
 <html>
 
 <head>
-  <title>Ticket</title>
+<title>Ticket</title>
 
-  <style>
+<style>
 
-    body{
-      font-family: monospace;
-      width: 300px;
-      padding: 15px;
-      color:#000;
-    }
+body{
+  font-family: monospace;
+  width:300px;
+  padding:15px;
+  color:#000;
+}
 
-    .logo{
-      width: 220px;
-      display:block;
-      margin:auto;
-      margin-bottom:10px;
-    }
+.logo{
+  width:220px;
+  display:block;
+  margin:auto;
+  margin-top:10px;
+  margin-bottom:-20px;
+}
 
-    .center{
-      text-align:center;
-    }
+.center{
+  text-align:center;
+}
 
-    .line{
-      border-top:1px dashed #000;
-      margin:10px 0;
-    }
+.line{
+  border-top:1px dashed #000;
+  margin:10px 0;
+}
 
-    .title{
-      text-align:center;
-      font-size:20px;
-      font-weight:bold;
-      margin:10px 0;
-    }
+.title{
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+  margin:10px 0;
+}
 
-    .row{
-      display:flex;
-      justify-content:space-between;
-      margin:2px 0;
-    }
+.row{
+  display:flex;
+  justify-content:space-between;
+  margin:3px 0;
+}
 
-    .total{
-      background:#000;
-      color:#fff;
-      padding:10px;
-      font-size:26px;
-      font-weight:bold;
-      display:flex;
-      justify-content:space-between;
-      margin-top:10px;
-      border-radius:8px;
-    }
+.total{
+  background:#000;
+  color:#fff;
+  padding:10px;
+  font-size:26px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  border-radius:8px;
+}
 
-    .small{
-      font-size:12px;
-    }
+.small{
+  font-size:12px;
+}
 
-    .insta{
-      text-align:center;
-      margin-top:15px;
-      font-weight:bold;
-      font-size:18px;
-    }
+.insta{
+  text-align:center;
+  margin-top:15px;
+  font-weight:bold;
+  font-size:18px;
+}
 
-  </style>
+</style>
 
 </head>
 
 <body>
 
-  <img 
-    src="/ticket-logo.png"
-    class="logo"
-  />
+<img 
+  src="/ticket-logo.png"
+  class="logo"
+/>
 
-  <div class="center">
-    Mauricio Sarmiento<br>
-    NIF: 79443976K<br>
-    Habernaria 3<br>
-    S/C Tenerife 38107<br>
-    Tel: 698515415
-  </div>
+<div class="center">
+  Mauricio Sarmiento<br>
+  NIF: 79443976K<br>
+  Habernaria 3<br>
+  S/C Tenerife 38107
+</div>
 
-  <div class="line"></div>
+<div class="line"></div>
 
-  <div class="title">
-    TICKET DE COMPRA
-  </div>
+<div class="title">
+  TICKET DE COMPRA
+</div>
 
-  ${ticket.items.map(item => {
+${ticket.items.map(item => {
 
-    const product = products.find(
-      p => p.id === item.product_id
-    );
+  const product = products.find(
+    p => p.id === item.product_id
+  );
 
-    const precio = product?.price || 0;
+  const precio = product?.price || 0;
 
-    return `
+  return `
 
-      <div style="margin-bottom:12px;">
-
-        <b>
-          ${item.quantity}x
-          ${item.product_name}
-        </b>
-
-        <br>
-
-        ${item.iphone_model || ""}
-
-        ${item.color_name || ""}
-
-        <div class="row">
-          <span>${precio}€ x ${item.quantity}</span>
-          <b>${precio * item.quantity}€</b>
-        </div>
-
-      </div>
-
-    `;
-
-  }).join("")}
-
-  <div class="line"></div>
-
-  <div class="row">
-    <b>TOTAL ARTÍCULOS:</b>
-    <b>${ticket.total_items}</b>
-  </div>
-
-  <div class="row">
-    <b>SUBTOTAL:</b>
+  <div style="margin-bottom:12px;">
 
     <b>
-      ${(
-        ticket.items.reduce((acc, item) => {
-
-          const product = products.find(
-            p => p.id === item.product_id
-          );
-
-          return acc + (
-            (product?.price || 0)
-            * item.quantity
-          );
-
-        }, 0) / 1.07
-      ).toFixed(2)}€
+      ${item.quantity}x
+      ${item.product_name}
     </b>
-  </div>
 
-  <div class="row">
-    <b>IGIC (7%):</b>
+    <br>
 
-    <b>
-      ${(
-        ticket.items.reduce((acc, item) => {
+    ${item.iphone_model || ""}
 
-          const product = products.find(
-            p => p.id === item.product_id
-          );
+    ${item.color_name || ""}
 
-          return acc + (
-            (product?.price || 0)
-            * item.quantity
-          );
-
-        }, 0)
-        -
-        (
-          ticket.items.reduce((acc, item) => {
-
-            const product = products.find(
-              p => p.id === item.product_id
-            );
-
-            return acc + (
-              (product?.price || 0)
-              * item.quantity
-            );
-
-          }, 0) / 1.07
-        )
-      ).toFixed(2)}€
-    </b>
-  </div>
-
-  <div class="total">
-
-    <span>TOTAL</span>
-
-    <span>
-      ${ticket.items.reduce((acc, item) => {
-
-        const product = products.find(
-          p => p.id === item.product_id
-        );
-
-        return acc + (
-          (product?.price || 0)
-          * item.quantity
-        );
-
-      }, 0)}€
-    </span>
+    <div class="row">
+      <span>${precio}€ x ${item.quantity}</span>
+      <b>${precio * item.quantity}€</b>
+    </div>
 
   </div>
 
-  <div class="line"></div>
+  `;
 
-  <div class="row small">
-    <span>
-      Ticket #${String(ticket.ticket_number).slice(-6)}
-    </span>
+}).join("")}
 
-    <span>
-      ${new Date(ticket.date).toLocaleString()}
-    </span>
-  </div>
+<div class="line"></div>
 
-  <div class="line"></div>
+<div class="total">
 
-  <div class="center">
-    ★ GRACIAS POR SU COMPRA ★
-  </div>
+  <span>TOTAL</span>
 
-  <div class="insta">
-    Instagram: @sumapr0
-  </div>
+  <span>
+    ${ticket.items.reduce((acc, item) => {
 
-  <div class="center small">
-    IGIC INCLUIDO
-  </div>
+      const product = products.find(
+        p => p.id === item.product_id
+      );
+
+      return acc + (
+        (product?.price || 0)
+        * item.quantity
+      );
+
+    }, 0)}€
+  </span>
+
+</div>
+
+<div class="line"></div>
+
+<div class="row small">
+
+  <span>
+    Ticket #${String(ticket.ticket_number).slice(-6)}
+  </span>
+
+  <span>
+    ${new Date(ticket.date).toLocaleString()}
+  </span>
+
+</div>
+
+<div class="line"></div>
+
+<div class="center">
+  ★ GRACIAS POR SU COMPRA ★
+</div>
+
+<div class="insta">
+  Instagram: @sumapr0
+</div>
 
 </body>
 
 </html>
-  `);
+`);
 
   ventana.document.close();
 
   ventana.onload = () => {
+
+    ventana.focus();
+
     ventana.print();
+
+    setTimeout(() => {
+      ventana.close();
+    }, 500);
+
   };
 
 };
