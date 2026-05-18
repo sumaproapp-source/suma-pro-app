@@ -5,20 +5,42 @@ import axios from "axios";
 const API = "https://suma-pro-app.onrender.com/api";
 
 const MODELS = [
-  "XS MAX","X/XS", "XR", "7G/8G/SE (2020-2024)", "iPhone 7P/8P", "iPhone 11",
-  "iPhone 12 ","iPhone 12 Pro", "iPhone 12 Mini", "iPhone 12 Pro Max", "iPhone 13", "iPhone 13 Pro Max","iPhone  13 Mini", "iPhone 14", 
-  "iPhone 13 Pro", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 14 Plus",
-  "iPhone 15", "iPhone 15 Pro", "iPhone 15 Plus", "iPhone 15 Pro Max", "iPhone 16", "iPhone 16 Plus", "16 Pro",
-  "iPhone 16 Pro Max", "iPhone 16 E/SE", "iPhone 17", "iPhone 17 Pro", "iPhone 17 Pro Max", "iPhone Air",
-  "S20 FE", "S20 Plus", "S21 Ultra", "S21", "S21 Plus", "S22", "S22 Plus",
-  "S22 Ultra", "S23", "S23 Plus", "S23 Ultra","S25","S25 Ultra","S26","S26 Ultra", "S23 FE", "S24 / S25",
-  "S24 / 25 Plus", "S24 FE", "S24 Ultra", "S25 Ultra", "S25 FE", "S21 FE",
-  "A15", "A16", "A55", "A35", "A13 4G / A32 5G", "A52S / A52", "A21S",
-  "A36 / A56", "A54", "A26 / A17", "A34", "A70", "A22 5G", "A25", "A53",
-  "A14", "A10", "A12", "AA13 4G", "A14", "A15", "A16", "A17 / A26", "A21S",
-  "A22", "A25", "A36 / 56", "A20 E / A40", "A50", "A52", "A53", "A54",
-  "A35", "A34", "A70", "P30 (Huawei)", "S20 FE", "Otro"
+"XS MAX","X/XS","XR","7G/8G/SE",
+"iPhone 7P/8P","iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max",  
+"iPhone 12","iPhone 12 Pro",
+"iPhone 12 Mini","iPhone 12 Pro Max",
+"iPhone 13","iPhone 13 Mini",
+"iPhone 13 Pro","iPhone 13 Pro Max",
+"iPhone 14","iPhone 14 Plus",
+"iPhone 14 Pro","iPhone 14 Pro Max",
+"iPhone 15","iPhone 15 Plus",
+"iPhone 15 Pro","iPhone 15 Pro Max",
+"iPhone 16","iPhone 16 Plus",
+"iPhone 16 Pro","iPhone 16 Pro Max",
+"iPhone 16E/SE",
+"iPhone 17","iPhone 17 Pro",
+"iPhone 17 Pro Max","iPhone Air",
+
+"S20 FE","S20 Plus",
+"S21","S21 FE","S21 Plus","S21 Ultra",
+"S22","S22 Plus","S22 Ultra",
+"S23","S23 FE","S23 Plus","S23 Ultra",
+"S24","S24 FE","S24 Plus","S24 Ultra",
+"S25","S25 FE","S25 Plus","S25 Ultra",
+"S26","S26 Ultra",
+
+"A10","A12","A13",
+"A14","A15","A16","A17",
+"A21S","A22","A25","A26",
+"A34","A35","A36",
+"A50","A52","A52S",
+"A53","A54","A55","A56",
+"A70",
+
+"P30 (Huawei)",
+"OTRO"
 ];
+
 
 mainDiv: {
   backgroundImage: `url(${process.env.PUBLIC_URL}/fondo2.png)`,
