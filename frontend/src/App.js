@@ -297,8 +297,8 @@ useEffect(() => {
 
     MODELS.forEach(modelo => {
 
-      const cantidad = Number(
-        (c.stock && c.stock[modelo]) || 0
+      const cantidad = parseInt(
+        c.stock?.[modelo] || 0
       );
 
       if (cantidad > 0) {
@@ -317,6 +317,12 @@ useEffect(() => {
   });
 
 });
+
+console.log(
+  "Enviando a Drive:",
+  datosParaEnviar.length,
+  "filas"
+);
 
 console.log("FILAS:", datosParaEnviar.length);
     
