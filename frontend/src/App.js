@@ -295,29 +295,36 @@ useEffect(() => {
 
   p.colors.forEach(c => {
 
-    MODELS.forEach(modelo => {
+    if (!c.stock) return;
 
-      const cantidad = parseInt(
-        c.stock?.[modelo] || 0
-      );
+    Object.entries(c.stock).forEach(
+      ([modelo, cantidad]) => {
 
-      if (cantidad > 0) {
+        cantidad = parseInt(cantidad || 0);
 
-        datosParaEnviar.push({
-          modelo: modelo,
-          producto: p.name,
-          color: c.name,
-          stock: cantidad
-        });
+        if (cantidad > 0) {
+
+          datosParaEnviar.push({
+            modelo,
+            producto: p.name,
+            color: c.name,
+            stock: cantidad
+          });
+
+        }
 
       }
-
-    });
+    );
 
   });
 
 });
 
+console.log(
+  "Enviando a Drive:",
+  datosParaEnviar.length,
+  "filas"
+);
 console.log(
   "Enviando a Drive:",
   datosParaEnviar.length,
