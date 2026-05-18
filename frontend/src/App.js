@@ -309,66 +309,68 @@ useEffect(() => {
   };
 
   const exportarADrive = async () => {
+
   const datosParaEnviar = [];
 
   products.forEach(p => {
 
-  ```
-  if (!p.colors) return;
+    if (!p.colors) return;
 
-  p.colors.forEach(c => {
+    p.colors.forEach(c => {
 
-    Object.entries(c.stock || {}).forEach(
-      ([modelo, cantidad]) => {
-        cantidad = parseInt(cantidad || 0);
-        // ✅ SOLO STOCK REAL
-        if (cantidad > 0) {
-          datosParaEnviar.push({
-            modelo,
-            producto: p.name,
-            color: c.name,
-            stock: cantidad
-          });
+      Object.entries(c.stock || {}).forEach(
+        ([modelo, cantidad]) => {
+
+          cantidad = parseInt(cantidad || 0);
+
+          if (cantidad > 0) {
+
+            datosParaEnviar.push({
+              modelo,
+              producto: p.name,
+              color: c.name,
+              stock: cantidad
+            });
+
+          }
+
         }
-      }
-    );
-  });
-  ```
+      );
+
+    });
+
   });
 
   console.log(
-  "FILAS REALES:",
-  datosParaEnviar.length
+    "FILAS REALES:",
+    datosParaEnviar.length
   );
 
   if (datosParaEnviar.length === 0) {
 
-  ```
-  alert("⚠️ No hay stock para sincronizar");
-  return;
-  ```
+    alert("⚠️ No hay stock para sincronizar");
+    return;
+
   }
 
   try {
-  ```
+
     await axios.post(
-    `${API}/sync-drive`,
-    datosParaEnviar
-  );
+      `${API}/sync-drive`,
+      datosParaEnviar
+    );
 
-  alert("🚀 Sincronizado con Drive");
-  ```
+    alert("🚀 Sincronizado con Drive");
+
   } catch (e) {
-  ```
-  console.error(e);
 
-  alert("❌ Error sincronizando");
-  ```
+    console.error(e);
+
+    alert("❌ Error sincronizando");
+
   }
 
-  };
-
-
+};
 console.log(
   "Enviando a Drive:",
   datosParaEnviar.length,
