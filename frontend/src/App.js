@@ -289,7 +289,7 @@ useEffect(() => {
   const exportarADrive = async () => {
   const datosParaEnviar = [];
 
-  products.forEach(p => {
+ products.forEach(p => {
 
   if (!p.colors) return;
 
@@ -297,10 +297,10 @@ useEffect(() => {
 
     MODELS.forEach(modelo => {
 
-      const cantidad =
-        (c.stock && c.stock[modelo]) || 0;
+      const cantidad = Number(
+        (c.stock && c.stock[modelo]) || 0
+      );
 
-      // ✅ SOLO ENVÍA STOCK REAL
       if (cantidad > 0) {
 
         datosParaEnviar.push({
@@ -309,10 +309,16 @@ useEffect(() => {
           color: c.name,
           stock: cantidad
         });
+
       }
+
     });
+
   });
+
 });
+
+console.log("FILAS:", datosParaEnviar.length);
     
   // ==========================================
   // 2. AQUÍ VA EL BLOQUE QUE PUSISTE (Validación)
