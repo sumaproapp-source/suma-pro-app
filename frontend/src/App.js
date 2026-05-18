@@ -331,39 +331,38 @@ useEffect(() => {
               color: c.name,
               stock: cantidad
             });
-
           }
-
         }
       );
-
     });
-
   });
-
   console.log(
     "FILAS REALES:",
     datosParaEnviar.length
   );
-
   if (datosParaEnviar.length === 0) {
-
     alert("⚠️ No hay stock para sincronizar");
     return;
-
   }
 
   try {
-
-    await axios.post(
-      `${API}/sync-drive`,
-      datosParaEnviar
-    );
-
+    // 🔥 ENVÍO EN BLOQUES
+    const bloque = 200;
+    for (let i = 0; i < datosParaEnviar.length; i += bloque) {
+      const parte = datosParaEnviar.slice(
+        i,
+        i + bloque
+      );
+      console.log(
+        `Enviando bloque ${i / bloque + 1}`
+      );
+      await axios.post(
+        `${API}/sync-drive`,
+        parte
+      );
+    }
     alert("🚀 Sincronizado con Drive");
-
   } catch (e) {
-
     console.error(e);
 
     alert("❌ Error sincronizando");
@@ -371,38 +370,7 @@ useEffect(() => {
   }
 
 };
-console.log(
-  "Enviando a Drive:",
-  datosParaEnviar.length,
-  "filas"
-);
-console.log(
-  "Enviando a Drive:",
-  datosParaEnviar.length,
-  "filas"
-);
 
-console.log("FILAS:", datosParaEnviar.length);
-    
-  // ==========================================
-  // 2. AQUÍ VA EL BLOQUE QUE PUSISTE (Validación)
-  // ==========================================
-  if (datosParaEnviar.length === 0) {
-    alert("⚠️ No hay productos o modelos configurados para sincronizar.");
-    return; // Detiene la ejecución para no llamar a la API en vano
-  }
-  // ==========================================
-
-  console.log("Enviando a Drive:", datosParaEnviar.length, "filas");
-
-  try {
-    const respuesta = await axios.post(`${API}/sync-drive`, datosParaEnviar);
-    alert("🚀 Sincronizado con Drive exitosamente");
-  } catch (e) {
-    console.error(e);
-    alert("❌ Error al sincronizar: Revisa la consola del servidor");
-  }
-};
 const imprimirTicket = (ticket) => {
 
   const ventana = window.open("", "_blank");
