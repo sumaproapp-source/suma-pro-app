@@ -20,18 +20,15 @@ const MODELS = [
   "A35", "A34", "A70", "P30 (Huawei)", "S20 FE", "Otro"
 ];
 
-const styles = {
-  mainDiv: {
-    backgroundImage: `url(${process.env.PUBLIC_URL}/fondo2.png)`,
-    
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundAttachment: 'fixed',
-    minHeight: '100vh',
-    paddingBottom: '140px',
-    fontFamily: '"Rajdhani", sans-serif',
-    color: '#fff',
-  },
+mainDiv: {
+  backgroundImage: `url(${process.env.PUBLIC_URL}/fondo2.png)`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  minHeight: '100vh',
+  paddingBottom: '140px',
+  fontFamily: '"Rajdhani", sans-serif',
+  color: '#fff',
+},
   glowCard: {
     backgroundColor: 'rgba(28, 46, 116, 0.6)', 
     borderRadius: '15px',
@@ -292,22 +289,31 @@ useEffect(() => {
   const exportarADrive = async () => {
   const datosParaEnviar = [];
 
-  // 1. Aquí se llenan los datos (esto ya lo tienes)
   products.forEach(p => {
-    if (!p.colors) return;
-    p.colors.forEach(c => {
-      MODELS.forEach(modelo => {
-        const cantidad = (c.stock && c.stock[modelo]) || 0;
+
+  if (!p.colors) return;
+
+  p.colors.forEach(c => {
+
+    MODELS.forEach(modelo => {
+
+      const cantidad =
+        (c.stock && c.stock[modelo]) || 0;
+
+      // ✅ SOLO ENVÍA STOCK REAL
+      if (cantidad > 0) {
+
         datosParaEnviar.push({
           modelo: modelo,
           producto: p.name,
           color: c.name,
           stock: cantidad
         });
-      });
+      }
     });
   });
-
+});
+    
   // ==========================================
   // 2. AQUÍ VA EL BLOQUE QUE PUSISTE (Validación)
   // ==========================================
