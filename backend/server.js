@@ -334,7 +334,7 @@ app.get("/api/sales", async (req, res) => {
    GOOGLE DRIVE
 ========================= */
 
-const G_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAd7wskdU8_D5CKkRprlVaWMbHyLrEoepLT-zocL1OHnGjZXA2Us7dWIEXQ3c_qwVUcw/exec";
+const G_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHpPWjDzbQiLvAyN950k-5xAfpvfI3FIHrY_TGUqTrOxUWN_y8LgzLEtmnmjoVRlDT3g/exec";
 
 app.post("/api/sync-drive", async (req, res) => {
   try {
