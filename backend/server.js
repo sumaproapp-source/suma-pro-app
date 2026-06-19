@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const ExcelJS = require("exceljs");
@@ -18,13 +20,11 @@ app.use(express.urlencoded({
 
 const mongoose = require("mongoose");
 
+console.log("MONGO_URI =", process.env.MONGO_URI);
 // ✅ Conexión Mongo estable
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log("✅ Mongo conectado"))
-.catch(err => console.log("❌ Error Mongo:", err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ Mongo conectado"))
+  .catch(err => console.log("❌ Error Mongo:", err));
 
 /* =========================
    SCHEMAS
@@ -183,8 +183,6 @@ app.put("/api/stock", async (req, res) => {
     });
   }
 });
-
-
 // DELETE PRODUCT
 app.delete("/api/products/:id", async (req, res) => {
   try {
