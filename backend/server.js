@@ -33,9 +33,21 @@ mongoose.connect(process.env.MONGO_URI)
 const ProductSchema = new mongoose.Schema({
   name: String,
   price: Number,
+
+  category: {
+    type: String,
+    default: "FUNDAS"
+  },
+
+  image: {
+    type: String,
+    default: ""
+  },
+
   is_miscellaneous: Boolean,
   is_extra: Boolean,
   colors: Array
+
 }, {
   toJSON: {
     transform: function(doc, ret) {
