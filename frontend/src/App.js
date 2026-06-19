@@ -41,6 +41,7 @@ const MODELS = [
 "OTRO"
 ];
 
+const styles = {
 
 mainDiv: {
   backgroundImage: `url(${process.env.PUBLIC_URL}/fondo2.png)`,
@@ -113,7 +114,10 @@ mainDiv: {
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({}); 
-  const [pendingSale, setPendingSale] = useState([]);
+  const [pendingSale, setPendingSale] = useState(() => {
+  const guardado = localStorage.getItem("pendingSale");
+  return guardado ? JSON.parse(guardado) : [];
+});
   const [selectedModel, setSelectedModel] = useState({});
   const [newProductName, setNewProductName] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
@@ -129,6 +133,14 @@ useEffect(() => {
   fetchTickets();
 }, [adminMode]);
   
+
+useEffect(() => {
+  localStorage.setItem(
+    "pendingSale",
+    JSON.stringify(pendingSale)
+  );
+}, [pendingSale]);
+
 
   const fetchProducts = async () => {
     try { 
@@ -306,6 +318,7 @@ useEffect(() => {
     }
     window.open(`https://wa.me/?text=${encodeURIComponent(msg.trim())}`);
     setPendingSale([]);
+localStorage.removeItem("pendingSale");
   };
 
   const exportarADrive = async () => {
@@ -1077,7 +1090,19 @@ const downloadInventoryExcel = () => {
         </div>
         <div style={{ maxWidth: "500px", margin: "auto", display: "flex", gap: "10px", padding: "0 10px" }}>
           <button onClick={globalConfirm} style={{ ...styles.futuristicButton, flex: 2, padding: "15px" }}>LIMPIAR / ENTER</button>
-          <button onClick={sendWhatsApp} style={{ ...styles.futuristicButton, flex: 1, padding: "15px", background: '#25D366' }}>WHATSAPP 📲</button>
+          {adminMode && (
+  <button
+    onClick={sendWhatsApp}
+    style={{
+      ...styles.futuristicButton,
+      flex: 1,
+      padding: "15px",
+      background: '#25D366'
+    }}
+  >
+    WHATSAPP 📲
+  </button>
+)}
         </div>
       </footer>
 
