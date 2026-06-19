@@ -121,6 +121,7 @@ function App() {
   const [selectedModel, setSelectedModel] = useState({});
   const [newProductName, setNewProductName] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
+  const [newCategory, setNewCategory] = useState("FUNDAS");
   const [adminMode, setAdminMode] = useState(false);
   const [salesHistory, setSalesHistory] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -223,9 +224,12 @@ useEffect(() => {
   if (!newProductName.trim()) return;
 
   // Creamos el objeto EXACTAMENTE como lo espera tu backend
-  const nuevoProducto = {
+ const nuevoProducto = {
   name: newProductName.toUpperCase().trim(),
   price: Number(newProductPrice) || 0,
+
+  category: newCategory,
+
   is_miscellaneous: typeId === 1,
   is_extra: typeId === 2
 };
@@ -813,6 +817,21 @@ const downloadInventoryExcel = () => {
         }}
       />
   
+
+       <select
+        value={newCategory}
+        onChange={(e) => setNewCategory(e.target.value)}
+        style={{
+          width: "180px",
+          padding: "10px",
+          ...styles.selectField
+        }}
+      >
+        <option value="FUNDAS">📱 FUNDAS</option>
+        <option value="CRISTALES">🛡️ CRISTALES</option>
+        <option value="ACCESORIOS">🔌 ACCESORIOS</option>
+        <option value="OTROS">📦 OTROS</option>
+        </select>
       <button
         onClick={() => handleAddProduct(0)}
         style={{
