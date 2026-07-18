@@ -83,7 +83,6 @@ const TicketSchema = new mongoose.Schema({
 
 const Ticket = mongoose.model("Ticket", TicketSchema);
 
-const v2Routes = require("./routes/v2");
 
 /* =========================
    PRODUCTOS
