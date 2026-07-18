@@ -83,6 +83,8 @@ const TicketSchema = new mongoose.Schema({
 
 const Ticket = mongoose.model("Ticket", TicketSchema);
 
+const v2Routes = require("./routes/v2");
+
 /* =========================
    PRODUCTOS
 ========================= */
@@ -118,21 +120,49 @@ app.get("/api/tickets", async (req, res) => {
 
 
 // CREATE
+// CREATE
+// CREATE
+// CREATE
 app.post("/api/products", async (req, res) => {
+
+  console.log("BODY =", req.body);
+
   try {
-   const product = new Product({
-  name: (req.body.name || "SIN NOMBRE").toUpperCase(),
-  price: Number(req.body.price) || 0,
-  is_miscellaneous: Boolean(req.body.is_miscellaneous),
-  is_extra: Boolean(req.body.is_extra),
-  colors: []
-});
+
+    const product = new Product({
+
+      name: (req.body.name || "SIN NOMBRE").toUpperCase(),
+
+      price: Number(req.body.price) || 0,
+
+      category: (req.body.category || "OTROS").toUpperCase(),
+
+      is_miscellaneous: Boolean(req.body.is_miscellaneous),
+
+      is_extra: Boolean(req.body.is_extra),
+
+      image: req.body.image || "",
+
+      colors: []
+
+    });
 
     await product.save();
+
     res.status(201).json(product);
-  } catch (err) {
-    res.status(500).json({ error: "Error creando producto" });
+
   }
+
+  catch(err){
+
+    res.status(500).json({
+
+      error:"Error creando producto"
+
+    });
+
+  }
+
 });
 
 // ADD COLOR
@@ -195,6 +225,44 @@ app.put("/api/stock", async (req, res) => {
     });
   }
 });
+
+app.post("/api/models", async (req, res) => {
+
+  try {
+
+    const { product_id, model } = req.body;
+
+    const product = await Product.findById(product_id);
+
+    if (!product)
+      return res.status(404).json({ error: "Producto no encontrado" });
+
+    product.colors.forEach(color => {
+
+      if (!color.stock)
+        color.stock = {};
+
+      if (color.stock[model] === undefined)
+        color.stock[model] = 0;
+
+    });
+
+    product.markModified("colors");
+
+    await product.save();
+
+    res.json({ ok: true });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({ error: "Error creando modelo" });
+
+  }
+
+});
+
 // DELETE PRODUCT
 app.delete("/api/products/:id", async (req, res) => {
   try {
